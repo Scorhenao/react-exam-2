@@ -8,63 +8,71 @@ const Login = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const users = JSON.parse(localStorage.getItem("users"));
-    setUsers(users);
+    const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
+    setUsers(Array.isArray(storedUsers) ? storedUsers : [storedUsers]);
   }, []);
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    if (email == users.email && password == users.password) {
-      alert(`
-            ¡LOGGED SUCCESSFULLY!
-            email: ${email}, password: ${password}
-            `);
-      localStorage.setItem("currentUser", JSON.stringify(users));
+    const userFound = users.find(
+      (user) => user.email === email && user.password === password
+    );
+
+    if (userFound) {
+      alert(`✅ LOGGED IN SUCCESSFULLY!\nEmail: ${email}`);
+      localStorage.setItem("currentUser", JSON.stringify(userFound));
       navigate("/dashboard");
     } else {
-      alert(`
-            ¡Invalid credentials!
-            email: ${email}, password: ${password}
-            `);
+      alert("❌ Invalid credentials. Please try again.");
     }
   };
+
   return (
-    <form
-      onSubmit={handleLogin}
-      className="container m-auto mt-5 d-flex flex-column w-50 gx-3 gy-2 align-items-center border rounded p-5 gap-3"
-    >
-      <div className="col-sm-5">
-        <label htmlFor="email">Email</label>
-        <div className="input-group">
-          <div className="input-group-text">@</div>
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <form
+        onSubmit={handleLogin}
+        className="bg-light p-5 rounded shadow-lg w-50"
+      >
+        <h2 className="text-center text-primary fw-bold mb-4">Login</h2>
+
+        {/* Email Input */}
+        <div className="mb-3">
+          <label htmlFor="email" className="form-label fw-semibold">
+            Email
+          </label>
+          <div className="input-group">
+            <span className="input-group-text">@</span>
+            <input
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              className="form-control"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+        </div>
+
+        {/* Password Input */}
+        <div className="mb-4">
+          <label htmlFor="password" className="form-label fw-semibold">
+            Password
+          </label>
           <input
-            onChange={(e) => setEmail(e.target.value)}
-            type="text"
-            name="email"
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
             className="form-control"
-            id="specificSizeInputGroupUsername"
-            placeholder="email: "
+            placeholder="Enter your password"
+            required
           />
         </div>
-      </div>
-      <div className="col-sm-5">
-        <label htmlFor="password">Password</label>
-        <input
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          name="password"
-          className="form-control"
-          id="specificSizeInputGroupUsername"
-          placeholder="password: "
-        />
-      </div>
-      <div className="col-auto">
-        <button type="submit" className="btn btn-primary">
-          Submit
+
+        {/* Submit Button */}
+        <button type="submit" className="btn btn-primary w-100 fw-semibold">
+          Login 🚀
         </button>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
 
