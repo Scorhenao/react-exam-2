@@ -1,11 +1,9 @@
 import React from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import NavBar from "../landing/components/NavBar";
 
 const Layout = () => {
   const navigate = useNavigate();
   const currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
-  console.log(currentUser);
 
   const Exit = () => {
     localStorage.removeItem("currentUser");
@@ -13,41 +11,37 @@ const Layout = () => {
   };
 
   return (
-    <div className="container-fluid d-flex flex-column gap-5 ">
-      <nav className="d-flex gap-5">
-        <ul className="nav flex-column bg-light w-25 d-flex gap-4 text-center p-4 border rounded">
+    <div className="container-fluid d-flex vh-100">
+      {/* Sidebar */}
+      <nav
+        className="bg-light border-end p-4 d-flex flex-column align-items-start gap-4"
+        style={{ width: "250px" }}
+      >
+        <h2 className="text-primary fw-bold">Dashboard</h2>
+        <ul className="nav flex-column w-100">
           <li className="nav-item">
-            {" "}
-            <Link
-              to="products"
-              className="block px-3 py-2 text-black bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent"
-              aria-current="page"
-            >
-              Product
+            <Link to="products" className="nav-link text-dark fw-semibold">
+              🛒 Products
             </Link>
           </li>
           <li className="nav-item">
-            {" "}
-            <Link
-              to="clients"
-              className="block px-3 py-2 text-black bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent"
-              aria-current="page"
-            >
-              Client
+            <Link to="clients" className="nav-link text-dark fw-semibold">
+              👥 Clients
             </Link>
           </li>
         </ul>
-
-        {/* Main content */}
-        <main className="d-flex gap-3">
-          <h1 className="text-lg font-semibold">Welcome {currentUser.name}</h1>
-          <button className="rounded w-25 h-25 mt-3" onClick={Exit}>
-            Exit
-          </button>
-        </main>
+        <button className="btn btn-danger mt-auto w-100" onClick={Exit}>
+          🚪 Exit
+        </button>
       </nav>
 
-      <div className="d-flex flex-column flex-grow p-4">
+      {/* Main content */}
+      <div className="flex-grow-1 p-4">
+        <header className="d-flex justify-content-between align-items-center mb-4">
+          <h1 className="text-primary">
+            Welcome, {currentUser?.name || "Guest"}! 👋
+          </h1>
+        </header>
         <Outlet />
       </div>
     </div>
