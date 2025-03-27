@@ -17,7 +17,7 @@ const EditProductModal = ({ show, product, onChange, onSave, onClose }) => {
               ></button>
             </div>
             <div className="modal-body">
-              <label htmlFor="name">Name</label >
+              <label htmlFor="name">Name</label>
               <input
                 type="text"
                 name="name"
@@ -25,7 +25,7 @@ const EditProductModal = ({ show, product, onChange, onSave, onClose }) => {
                 className="form-control"
                 onChange={onChange}
               />
-              <label htmlFor="price">Price</label >
+              <label htmlFor="price">Price</label>
               <input
                 type="number"
                 name="price"
@@ -33,7 +33,7 @@ const EditProductModal = ({ show, product, onChange, onSave, onClose }) => {
                 className="form-control"
                 onChange={onChange}
               />
-              <label htmlFor="description">Description</label >
+              <label htmlFor="description">Description</label>
               <input
                 type="text"
                 name="description"
@@ -41,7 +41,7 @@ const EditProductModal = ({ show, product, onChange, onSave, onClose }) => {
                 className="form-control"
                 onChange={onChange}
               />
-              <label htmlFor="quantity">Quantity</label >
+              <label htmlFor="quantity">Quantity</label>
               <input
                 type="number"
                 name="quantity"

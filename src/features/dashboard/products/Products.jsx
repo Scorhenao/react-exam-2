@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormProducts from "./components/FormProducts";
 import EditProductModal from "./components/EditProductModal";
 
@@ -6,9 +6,14 @@ const Products = () => {
   const [products, setProducts] = useState(
     JSON.parse(localStorage.getItem("products")) || []
   );
-
+  const [clients, setClients] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    const storedClients = JSON.parse(localStorage.getItem("clients")) || [];
+    setClients(storedClients);
+  }, []);
 
   const openEditModal = (product) => {
     setEditingProduct(product);
@@ -35,8 +40,20 @@ const Products = () => {
     localStorage.setItem("products", JSON.stringify(newProducts));
   };
 
+  const clientName = (id) => {
+    console.log("The array of clients is:", clients);
+    console.log("Searching for client with ID:", id);
+
+    const name = clients.find(
+      (client) => Number(client.id) === Number(id)
+    )?.name;
+    console.log("Client name found:", name);
+
+    return name || "No client";
+  };
+
   return (
-    <div className="container-fluid d-flex ">
+    <div className="container-fluid d-flex">
       <FormProducts setProducts={setProducts} />
       <table className="table mt-4">
         <thead>
@@ -45,6 +62,7 @@ const Products = () => {
             <th scope="col">Price</th>
             <th scope="col">Description</th>
             <th scope="col">Quantity</th>
+            <th scope="col">Client</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
@@ -56,6 +74,7 @@ const Products = () => {
                 <td>{product.price}</td>
                 <td>{product.description}</td>
                 <td>{product.quantity}</td>
+                <td>{clientName(product.clientId)}</td>{" "}
                 <td>
                   <button
                     onClick={() => openEditModal(product)}
@@ -74,7 +93,7 @@ const Products = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="5">No products</td>
+              <td colSpan="6">No products</td>
             </tr>
           )}
         </tbody>
